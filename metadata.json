@@ -1,0 +1,8 @@
+{
+  "name": "Remix PondokPay",
+  "description": "Sistem Pembayaran \u0026 Manajemen Tagihan Pondok Pesantren Production Ready",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

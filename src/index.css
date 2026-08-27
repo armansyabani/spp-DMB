@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ------------------------------------------------------------------ */
+/* Global micro-interactions: every clickable element in the app gets */
+/* a subtle, snappy press/hover animation automatically — no need to  */
+/* hand-wire it on every single button.                               */
+/* ------------------------------------------------------------------ */
+button:not(:disabled),
+a,
+[role="button"] {
+  transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+button:not(:disabled):active,
+[role="button"]:not([aria-disabled="true"]):active {
+  transform: scale(0.96);
+}
+
+button:not(:disabled):hover:not(:active) {
+  filter: brightness(1.04);
+}
+
+/* ------------------------------------------------------------------ */
+/* Sistem tema warna (accent). 4 preset resmi, bisa dipilih admin di   */
+/* Pengaturan > Tampilan. Elemen yang pakai var(--accent-*) otomatis   */
+/* ikut berubah warna tanpa perlu ganti className manual satu-satu.    */
+/* ------------------------------------------------------------------ */
+:root,
+[data-accent="emerald"] {
+  --accent-50: #ecfdf5;
+  --accent-100: #d1fae5;
+  --accent-400: #34d399;
+  --accent-500: #10b981;
+  --accent-600: #059669;
+  --accent-700: #047857;
+  --accent-900: #064e3b;
+  --accent-950: #022c22;
+}
+[data-accent="royal-blue"] {
+  --accent-50: #eff6ff;
+  --accent-100: #dbeafe;
+  --accent-400: #60a5fa;
+  --accent-500: #3b82f6;
+  --accent-600: #2563eb;
+  --accent-700: #1d4ed8;
+  --accent-900: #1e3a8a;
+  --accent-950: #172554;
+}
+[data-accent="maroon"] {
+  --accent-50: #fef2f2;
+  --accent-100: #fee2e2;
+  --accent-400: #f87171;
+  --accent-500: #dc2626;
+  --accent-600: #b91c1c;
+  --accent-700: #991b1b;
+  --accent-900: #7f1d1d;
+  --accent-950: #450a0a;
+}
+[data-accent="ocean-teal"] {
+  --accent-50: #f0fdfa;
+  --accent-100: #ccfbf1;
+  --accent-400: #2dd4bf;
+  --accent-500: #14b8a6;
+  --accent-600: #0d9488;
+  --accent-700: #0f766e;
+  --accent-900: #134e4a;
+  --accent-950: #042f2c;
+}
+
+/* Smooth theme + color transitions app-wide */
+* {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
+/* ------------------------------------------------------------------ */
+/* Global input/textarea/select contrast fallback. Banyak form di      */
+/* aplikasi ini tidak menulis class dark secara eksplisit, jadi tanpa  */
+/* aturan dasar ini, input jadi tetap putih-terang + teks hitam waktu  */
+/* mode gelap aktif (kontras buruk, "nyala" sendiri di antara UI       */
+/* gelap). Class dark-bg dan dark-text yang SUDAH ditulis di komponen  */
+/* manapun tetap menang (utility class selalu lebih spesifik dari      */
+/* base layer), jadi ini murni fallback yang aman, bukan override.     */
+/* ------------------------------------------------------------------ */
+@layer base {
+  input,
+  textarea,
+  select {
+    color: #0f172a; /* slate-900 */
+    background-color: #ffffff;
+  }
+  .dark input,
+  .dark textarea,
+  .dark select {
+    color: #f8fafc; /* slate-50 */
+    background-color: #1e293b; /* slate-800 */
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: #94a3b8; /* slate-400 */
+    opacity: 1;
+  }
+  input:-webkit-autofill,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    -webkit-text-fill-color: #0f172a;
+    box-shadow: 0 0 0 1000px #ffffff inset;
+  }
+  .dark input:-webkit-autofill,
+  .dark textarea:-webkit-autofill,
+  .dark select:-webkit-autofill {
+    -webkit-text-fill-color: #f8fafc;
+    box-shadow: 0 0 0 1000px #1e293b inset;
+  }
+}
+
+/* Custom scrollbar, subtler on both themes */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.35);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.55);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Gentle fade-in for route/page-level content */
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-page-in {
+  animation: fadeSlideIn 0.35s ease-out;
+}
+
